@@ -6,11 +6,17 @@
         http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 	<http auto-config="true">
-		<intercept-url pattern="/users*" method="GET" access="ROLE_USER,ROLE_GUEST" />
+		<intercept-url pattern="/users*" method="GET"
+			access="ROLE_USER,ROLE_GUEST" />
 		<intercept-url pattern="/user/*" method="GET" access="ROLE_USER" />
 		<intercept-url pattern="/user/*" method="POST" access="ROLE_ADMIN" />
 		<anonymous username="guest" granted-authority="ROLE_GUEST" />
-	
+
+		<!-- v1: 定义form login模式 -->
+		<!-- <form-login></form-login> -->
+		
+		<!-- v2: 配置定义自己的login界面 -->
+		<form-login login-page="/mylogin.jsp" default-target-url="/users" />
 	</http>
 
 	<authentication-manager>

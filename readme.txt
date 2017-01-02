@@ -4,3 +4,6 @@ version 1.0:
 version 2.0
 	使用Spring security。
 	spring security 3.0.2可以匹配spring 3.2.3	
+
+version 3.0
+	指定定制的login页面.
