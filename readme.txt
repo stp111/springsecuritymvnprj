@@ -7,3 +7,6 @@ version 2.0
 
 version 3.0
 	指定定制的login页面.
+	
+version 4.0
+	定制login action处理。
