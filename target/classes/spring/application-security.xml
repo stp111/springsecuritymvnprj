@@ -5,13 +5,16 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<!-- -->
-	<http auto-config="true">
+	
+	<!-- v3.1 后， filter='none' 改为 security="none"-->
+	<http pattern="/static/**" security="none"/>
+	
+	<http auto-config="true" use-expressions="true" >
 		<intercept-url pattern="/users*" method="GET"
-			access="ROLE_USER,ROLE_GUEST" />
-		<intercept-url pattern="/user/*" method="GET" access="ROLE_USER" />
-		<intercept-url pattern="/user/*" method="POST" access="ROLE_ADMIN" />
-		<intercept-url pattern="/getuser/*" method="GET" access="ROLE_ADMIN" />
+			access="hasAnyRole('ROLE_USER','ROLE_GUEST')" />
+		<intercept-url pattern="/user/*" method="GET" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/user/*" method="POST" access="hasRole('admin')" />
+		<intercept-url pattern="/getuser/*" method="GET" access="hasRole('admin')" />
 		<anonymous username="guest" granted-authority="ROLE_GUEST" />
 
 		<!-- v1: 定义form login模式 -->
@@ -34,7 +37,7 @@
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="dataSource"
 				users-by-username-query="select username, password, case status when 1 then 'true' else 'false' end as enabled from user where name=?"
-				authorities-by-username-query="select username, roles as authorities from user where name = ?" />
+				authorities-by-username-query="select u.username, r.rolename as authorities from user u, user_role r where u.id = r.userid and u.name = ? " />
 		</authentication-provider>
 	</authentication-manager>
 
